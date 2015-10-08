@@ -1,0 +1,37 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "ubuntu",
+      "commit": true
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "dd if=/dev/urandom of=/tmp/small bs=1M count=1",
+        "dd if=/dev/urandom of=/tmp/big bs=1M count=100",
+        "sync",
+        "md5sum /tmp/small /tmp/big",
+        "ls -l /tmp/"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "/tmp/small",
+      "destination": "small",
+      "direction": "download"
+    },
+    {
+      "type": "file",
+      "source": "/tmp/big",
+      "destination": "big",
+      "direction": "download"
+    },
+    {
+      "type": "shell-local",
+      "command": "md5sum small big; ls -l small big"
+    }
+  ]
+}
