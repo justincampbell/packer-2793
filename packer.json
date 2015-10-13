@@ -12,8 +12,9 @@
       "inline": [
         "dd if=/dev/urandom of=/tmp/small bs=1M count=1",
         "dd if=/dev/urandom of=/tmp/big bs=1M count=100",
+        "dd if=/dev/urandom of=/tmp/mega bs=1M count=500",
         "sync",
-        "md5sum /tmp/small /tmp/big",
+        "md5sum /tmp/small /tmp/big /tmp/mega",
         "ls -l /tmp/"
       ]
     },
@@ -30,8 +31,14 @@
       "direction": "download"
     },
     {
+      "type": "file",
+      "source": "/tmp/mega",
+      "destination": "mega",
+      "direction": "download"
+    },
+    {
       "type": "shell-local",
-      "command": "md5sum small big; ls -l small big"
+      "command": "md5sum small big mega; ls -l small big mega"
     }
   ]
 }
